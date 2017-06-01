@@ -77,6 +77,7 @@ public class Inicio extends AppCompatActivity {
                 }
                 else{
                     Toast.makeText(Inicio.this, "El usuario es incorrecto", Toast.LENGTH_SHORT).show();
+                    mProgress.setVisibility(View.GONE);
                 }
             }
 

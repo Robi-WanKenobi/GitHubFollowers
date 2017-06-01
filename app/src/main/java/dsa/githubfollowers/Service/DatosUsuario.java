@@ -1,5 +1,7 @@
 package dsa.githubfollowers.Service;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -42,6 +44,7 @@ public class DatosUsuario extends AppCompatActivity {
         setContentView(R.layout.activity_user_followers);
         mProgress = (ProgressBar) findViewById(R.id.progressBar);
         mProgress.setVisibility(View.VISIBLE);
+        mProgress.setProgress(10);
 
         loginUsuario = getIntent().getExtras().getString("loginUsuario");
         reposUsuario = getIntent().getExtras().getInt("reposUsuario");
@@ -50,18 +53,23 @@ public class DatosUsuario extends AppCompatActivity {
 
         login = (TextView) findViewById(R.id.login);
         login.setText(login.getText() + loginUsuario);
+        mProgress.setProgress(20);
 
         repos = (TextView) findViewById(R.id.repos);
         repos.setText(repos.getText() + Integer.toString(reposUsuario));
+        mProgress.setProgress(30);
 
         followers = (TextView) findViewById(R.id.followings);
         followers.setText(followers.getText() + Integer.toString(followersUsuario));
+        mProgress.setProgress(40);
 
         listView=(ListView)findViewById(R.id.list);
         loginUsuario = getIntent().getExtras().getString("loginUsuario");
+        mProgress.setProgress(50);
 
         avatar = (ImageView) findViewById(R.id.avatar);
         new ImageLoadTask(avatarUsuario, avatar).execute();
+        mProgress.setProgress(60);
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         Retrofit.Builder builder = new Retrofit.Builder()
@@ -70,6 +78,7 @@ public class DatosUsuario extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.client(httpClient.build()).build();
+        mProgress.setProgress(70);
 
         GitHubClient listaFollowers = retrofit.create(GitHubClient.class);
         Call<List<User>> call = listaFollowers.getFollowers(loginUsuario);
@@ -87,12 +96,12 @@ public class DatosUsuario extends AppCompatActivity {
 
                 ArrayAdapter adapter=new ArrayAdapter(DatosUsuario.this,android.R.layout.simple_list_item_1, nombresFollowers);
                 listView.setAdapter(adapter);
-                mProgress.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
             }
         });
+        mProgress.setProgress(100);
     }
 }
